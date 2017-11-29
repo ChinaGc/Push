@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="roc.gc.push.dao.MessageDao">
+
+	<select id="findMessageById" resultType="roc.gc.push.pojo.Message" parameterType="Long">
+		select a.* from push_message a where a.id = #{id}
+	</select>
+	
+	<select id="findMessage" resultType="roc.gc.push.pojo.Message" parameterType="roc.gc.push.pojo.Message">
+		select a.* from push_message a
+		<where>
+			<if test="sendUserToken !=null and sendUserToken !=''">
+				a.sendUserToken = #{sendUserToken}
+			</if>
+			<if test="acceptorUserToken !=null and acceptorUserToken !=''">
+				a.acceptorUserToken = #{acceptorUserToken}
+			</if>
+			<if test="status !=null and ">
+				a.status = #{status}
+			</if>
+			<if test="id !=null">
+				a.id = #{id}
+			</if>
+		</where>
+		order by a.createTime desc limit 1
+	</select>
+	
+	<select id="findMessageList" resultType="roc.gc.push.pojo.Message" parameterType="roc.gc.push.pojo.Message">
+		select a.* from push_message a
+		<where>
+			<if test="sendUserToken !=null and sendUserToken !=''">
+				and a.sendUserToken = #{sendUserToken}
+			</if>
+			<if test="acceptorUserToken !=null and acceptorUserToken !=''">
+				and a.acceptorUserToken = #{acceptorUserToken}
+			</if>
+			<if test="id !=null">
+				and a.id = #{id}
+			</if>
+		</where>
+		order by a.createTime desc
+	</select>
+	
+	<select id="findMessageCount" resultType="int" parameterType="roc.gc.push.pojo.Message">
+		select count(1) from push_message a
+		<where>
+			<if test="sendUserToken !=null and sendUserToken !=''">
+				and a.sendUserToken = #{sendUserToken}
+			</if>
+			<if test="acceptorUserToken !=null and acceptorUserToken !=''">
+				and a.acceptorUserToken = #{acceptorUserToken}
+			</if>
+			<if test="id !=null">
+				a.id = #{id}
+			</if>
+		</where>
+	</select>
+	
+	
+	<insert id="addMessage" parameterType="roc.gc.push.pojo.Message" useGeneratedKeys="true" keyProperty="id">
+		insert into push_Message(
+			pushTime,
+			createTime,
+			sendUserToken,
+			acceptorUserToken,
+			body,
+			status
+		)
+		values (
+			#{pushTime},
+			#{createTime},
+			#{sendUserToken},
+			#{acceptorUserToken},
+			#{body},
+			#{status}
+		)
+	</insert>
+	
+	<update id="upDateMessage" parameterType="roc.gc.push.pojo.Message">
+		update push_message   
+		 <set>
+		 	<if test="sendUserToken !=null and sendUserToken !=''">
+				sendUserToken=#{sendUserToken},
+			</if>
+			<if test="acceptorUserToken !=null and acceptorUserToken !=''">
+				acceptorUserToken=#{acceptorUserToken},
+			</if>
+			<if test="status !=null">
+				status=#{status},
+			</if>
+		 </set>
+		 where id = #{id}
+	</update>
+</mapper>   
