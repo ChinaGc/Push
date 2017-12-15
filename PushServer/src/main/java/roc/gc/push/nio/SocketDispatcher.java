@@ -132,7 +132,8 @@ public class SocketDispatcher implements IoHandler {
      *
      */
     private class PushWorker implements Runnable {
-        @Override
+        @SuppressWarnings("null")
+		@Override
         public void run() {
             while (true) {
                 PushRequest request = null;
@@ -216,7 +217,6 @@ public class SocketDispatcher implements IoHandler {
      * 收到客户端消息的两种情况 1.客户端连接认证 2.服务端推送消息反馈
      */
     @Override
-    @SuppressWarnings("serial")
     public void messageReceived(final IoSession session, Object message) throws Exception {
         logger.info("messageReceived : " + message);
         try {
