@@ -200,6 +200,7 @@ public class SocketDispatcher implements IoHandler {
     @Override
     public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
         logger.info("exceptionCaught");
+        logger.error("链接异常", cause);
         // if (cause instanceof FormatExcetion) {
         long id = session.getId();
         sessionPool.remove(id);
