@@ -37,12 +37,17 @@
 	</bean>
 
 	<bean id="codecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
-		<constructor-arg>
+		<!-- <constructor-arg>
 			<bean class="org.apache.mina.filter.codec.textline.TextLineCodecFactory">
 				<constructor-arg index="0" value="utf-8">
 				</constructor-arg>
 			</bean>
+		</constructor-arg> -->
+		<!-- websocket 支持 -->
+		<constructor-arg>
+			<bean class="roc.gc.push.core.websocket.WebSocketCodecFactory"/>
 		</constructor-arg>
+		
 	</bean>
 
 	<bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter" />

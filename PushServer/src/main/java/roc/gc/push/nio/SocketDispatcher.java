@@ -1,12 +1,17 @@
 package roc.gc.push.nio;
 
+import java.security.MessageDigest;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
@@ -213,20 +218,27 @@ public class SocketDispatcher implements IoHandler {
         session.closeOnFlush();
         // }
     }
-
     /**
      * 收到客户端消息的两种情况 1.客户端连接认证 2.服务端推送消息反馈
      */
     @Override
     public void messageReceived(final IoSession session, Object message) throws Exception {
-        logger.info("messageReceived : " + message);
+        //logger.info("messageReceived : " + message);
         try {
             // 客户端请求示例：
             // {type:"request",sequence:"标识一次发送过程",action:"auth",token:"发送者用户token"}
             // 客户端响应示例：
             // {type:"response",sequence:"标识一次发送过程",status:"true客户端成功响应"}
-            String json = message.toString();
-            Map<String, Object> receiveMsg = JSON.parseObject(json);
+            
+            IoBuffer buffer = (IoBuffer)message;
+            byte[] b = new byte[buffer.limit()];    
+            buffer.get(b);  
+              
+            String code = new String(b, "utf-8");  
+            if(true){
+                return;
+            }
+            Map<String, Object> receiveMsg = JSON.parseObject("");
             String sequence = (String) receiveMsg.get("sequence");
             String type = (String) receiveMsg.get("from");
             System.out.println("messageReceived----------------:" + sequence);
@@ -296,6 +308,7 @@ public class SocketDispatcher implements IoHandler {
             }
         } catch (Exception e) {
             // throw new FormatExcetion();
+            e.printStackTrace();
         }
     }
 
