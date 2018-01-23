@@ -1,6 +1,5 @@
 package roc.gc.push.nio;
 
-import java.security.MessageDigest;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -8,8 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.service.IoHandler;
