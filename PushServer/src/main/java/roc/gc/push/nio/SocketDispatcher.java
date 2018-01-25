@@ -227,16 +227,8 @@ public class SocketDispatcher implements IoHandler {
             // {type:"request",sequence:"标识一次发送过程",action:"auth",token:"发送者用户token"}
             // 客户端响应示例：
             // {type:"response",sequence:"标识一次发送过程",status:"true客户端成功响应"}
-            
-            IoBuffer buffer = (IoBuffer)message;
-            byte[] b = new byte[buffer.limit()];    
-            buffer.get(b);  
-              
-            String code = new String(b, "utf-8");  
-            if(true){
-                return;
-            }
-            Map<String, Object> receiveMsg = JSON.parseObject("");
+
+            Map<String, Object> receiveMsg = JSON.parseObject((String)message);
             String sequence = (String) receiveMsg.get("sequence");
             String type = (String) receiveMsg.get("from");
             System.out.println("messageReceived----------------:" + sequence);
